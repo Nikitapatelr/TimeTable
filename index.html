@@ -1,0 +1,104 @@
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8' />
+    <link href='node_modules/fullcalendar/main.css' rel='stylesheet' />
+    <link href='style.css' rel='stylesheet' />
+    <script src='node_modules/fullcalendar/main.js'></script>
+
+    <script>
+        var removeEventId;
+        var calendar;
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                height: "90%",
+                headerToolbar: {
+                    start: 'prev,today,next',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek,timeGridDay,list',
+                },
+                events: 'Events.json',
+                customButtons: {
+                    addEventButton: {
+                        text: 'add event...',
+                        click: function() {}
+                    }
+                },
+                dateClick: function(info) {
+                    var allDayBool = false;
+                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                    var startTimeStr = prompt('Enter starting time in HH:MM:SS format (optional)');
+                    var date = new Date(dateStr + startTimeStr); // will be in local time
+                    var titleStr = prompt('Enter a Name for the Event');
+
+                    if (startTimeStr == "" || endTimeStr == "") {
+                        allDayBool = true;
+                    } else {
+                        allDayBool = false;
+                        var endTimeStr = prompt('Enter ending time in HH:MM:SS format (optional)');
+                        var endDate = new Date(date + endTimeStr);
+                    }
+
+
+                    if (!isNaN(date.valueOf())) { // valid?
+                        calendar.addEvent({
+                            title: titleStr,
+                            start: date,
+                            end: endDate,
+                            allDay: allDayBool
+                        });
+                    } else {
+                        alert('Invalid date.');
+                    }
+
+                },
+            });
+
+
+            calendar.render();
+        });
+
+        function removeEventFromCalendar() {
+            console.log(removeEventId);
+            var event = calendar.getEventById(removeEventId);
+            alert("Are You Remove Event " + event.title);
+            event.remove();
+        }
+    </script>
+    <style>
+        /* width */
+        
+         ::-webkit-scrollbar {
+            width: 7px;
+        }
+        /* Track */
+        
+         ::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+        /* Handle */
+        
+         ::-webkit-scrollbar-thumb {
+            background: cornflowerblue;
+            border-radius: 10px;
+        }
+        /* Handle on hover */
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: cornflowerblue;
+        }
+    </style>
+</head>
+
+<body style="background-color: rgb(241, 249, 255); margin-top: 50px; font-family: 'Roboto', sans-serif;">
+    <div id='calendar' style="margin: auto; color: slategrey; border-radius: 10px; border: none; width: 80%;"></div>
+    <div id='events'></div>
+    <h1 id="modalTitle"></h1>
+    <h1 id="modalDescription"></h1>
+    <button id="addButton">add events</button>
+    <button id="removeButton" onclick="removeEventFromCalendar()">remove event</button>
+</body>
+
+</html>

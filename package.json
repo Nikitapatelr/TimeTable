@@ -1,0 +1,16 @@
+{
+  "name": "TimeTable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "evo-calendar.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.0.2",
+    "fullcalendar": "^5.8.0"
+  }
+}
